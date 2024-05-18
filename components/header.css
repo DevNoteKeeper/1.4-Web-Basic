@@ -1,0 +1,10 @@
+AddType text/css .css
+
+.header{
+    height: 80px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    padding: 15px 80px 15px 80px;
+}

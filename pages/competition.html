@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="/components/recommend_competition.js" defer></script>
+    <title>DevHub</title>
+</head>
+<style>
+    body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .competition{
+        font-family: "Fredoka", sans-serif;
+        color: #414656;
+        margin: 50px 0;
+    }
+    .title{
+        font-size: 32px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .card-wrap{
+        justify-content: center;
+        margin: 80px 0;
+    }
+    .card{
+        width: 580px;
+        height: 280px;
+        margin-right: 80px;
+    }
+    .card:last-child{
+        margin-right: 0;
+    }
+    .contents{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        border: solid 1px #A5ABBD;
+        border-radius: 25px 25px 0 0;
+        padding: 15px 35px;
+    }
+    .contents > img{
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        margin-right: 50px;
+    }
+    .contents-info{
+        width: 290px;
+    }
+    .contents-info > p {
+
+        font-size: 24px;
+        font-weight: 700;
+    }
+    .views{
+        font-size: 18px;
+        font-weight: 400;
+    }
+    .views > span{
+        color: #CC7183;
+        margin-right: 30px;
+    }
+    .button-wrap{
+        font-size: 24px;
+        font-weight: 400;
+        display: flex;
+        flex-direction:row;
+        align-items: center;
+    }
+    
+    .button-wrap > a{
+        width: 290px;
+        height: 50px;
+        border: solid 1px #A5ABBD;
+        border-radius: 0 0 0 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+    .button-wrap > a:last-child{
+        border-radius: 0 0 25px 0;
+    }
+    .post-number{
+        color: #CC7183;
+    }
+</style>
+<body>
+    <header-component></header-component>
+    <recommend-component></recommend-component>
+    <div class="competition">
+        <div class="title">
+            <div style="margin-right: 15px;">&#128293;</div>
+            <div>All Competition</div>
+        </div>
+        <div class="card-wrap">
+            <div class="card">
+                <div class="contents">
+                    <img src="/images/challenge.png"/>
+                    <div class="contents-info">
+                        <p>
+                            Competition Title
+                        </p>                            
+                        <div class="views">
+                            <span>D-10</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                            </svg>
+                            27
+                        </div>
+                        <div class="tags">
+                            #IT, #Hackaton, #Environment
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-wrap">
+                <a>Introduction</a>
+                <a>Team Formation &nbsp<span class="post-number">2</span></a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="contents">
+                    <img src="/images/challenge.png"/>
+                    <div class="contents-info">
+                        <p>
+                            Competition Title
+                        </p>                            
+                        <div class="views">
+                            <span>D-10</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                            </svg>
+                            27
+                        </div>
+                        <div class="tags">
+                            #IT, #Hackaton, #Environment
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-wrap">
+                <a>Introduction</a>
+                <a>Team Formation &nbsp<span class="post-number">2</span></a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <footer-component></footer-component>
+    <script src="/components/header.js"></script>
+    <script src="/components/footer.js"></script>
+</body>
+</html>

@@ -21,6 +21,9 @@ app.get('/compete_hub', (req, res) => {
 app.get('/algorithm_hub', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'algorithm.html'));
 });
+app.get('/registration', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'registration.html'));
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;

@@ -3,7 +3,7 @@ class Header extends HTMLElement {
 
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = '/components/header.css';
+        linkElement.href = '/components/Header.css';
 
         linkElement.onload = () => {
             let box = document.createElement('div');
@@ -19,7 +19,7 @@ class Header extends HTMLElement {
                 <button class="registration" onClick="location.href='/registration'">Registration</button>
             `;
 
-            if(window.location.pathname === "/compete_hub"){
+            if(window.location.pathname.includes("/compete_hub")){
                 const competeHubElement = box.querySelector('.menu > a[href="/compete_hub"]');
                 competeHubElement.classList.add('clicked-active');
             } else if(window.location.pathname === "/algorithm_hub"){

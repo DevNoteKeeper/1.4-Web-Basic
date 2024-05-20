@@ -1,8 +1,8 @@
-class footer extends HTMLElement{
+class Footer extends HTMLElement{
     connectedCallback(){
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = '/components/footer.css';
+        linkElement.href = '/components/Footer.css';
 
         linkElement.onload = () => {
             let box = document.createElement('div');
@@ -30,4 +30,4 @@ class footer extends HTMLElement{
     
     }
 }
-customElements.define('footer-component', footer);
+customElements.define('footer-component', Footer);

@@ -60,3 +60,6 @@
 .clicked-active{
     font-weight: 600;
 }
+button:hover {
+    cursor: pointer;
+}

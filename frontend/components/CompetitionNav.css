@@ -1,0 +1,37 @@
+.nav {
+    font-family: "Fredoka", sans-serif;
+    color: #414656;
+    font-size: 28px;
+    font-weight: 400;
+    width: 900px;
+    height: 54px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.nav > div {
+    width: 380px;
+    margin-right: 150px;
+}
+.nav > div:last-child{
+    margin-right: 0;
+}
+
+.clicked {
+    border-bottom: 5px solid #CC7183;
+
+}
+.clicked > a{
+    font-weight: 600;
+    color: #CC7183;
+}
+
+.unclicked {
+
+    border: 0;
+}
+.unclicked > a {
+    font-weight: 400;
+    color: #414656;
+}

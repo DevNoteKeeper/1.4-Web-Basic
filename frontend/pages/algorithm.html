@@ -71,28 +71,9 @@
         <div>For Coding Test</div>
     </div>
 
-    <div class="card-wrap">
-        <div class="card">
-            <img src="/images/hackerrank.png" />
-            <div class="card-info">
-                <a href="https://www.hackerrank.com/">HackerRank</a>
-                <p>This is one of the most popular coding practice website. This is a nice platform for everyone, especially beginners.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img src="/images/hackerrank.png" />
-            <div class="card-info">
-                <a href="https://www.hackerrank.com/">HackerRank</a>
-                <p>This is one of the most popular coding practice website. This is a nice platform for everyone, especially beginners.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img src="/images/hackerrank.png" />
-            <div class="card-info">
-                <a href="https://www.hackerrank.com/">HackerRank</a>
-                <p>This is one of the most popular coding practice website. This is a nice platform for everyone, especially beginners.</p>
-            </div>
-        </div>
+    <div class="card-wrap" id="card-wrap1">
+    </div>
+    <div class="card-wrap" id="card-wrap2">
     </div>
 </div>
 
@@ -100,6 +81,39 @@
 
     <script src="/components/Header.js"></script>
     <script src="/components/Footer.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: '/api/algorithm_sites',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
 
+                    data.forEach(function(algorithm) {
+                        console.log(algorithm.logo)
+                        let temp_html = `
+                            <div class="card">
+                                <img src="${algorithm.logo}" allow="autoplay" />
+                                <div class="card-info">
+                                    <a href="${algorithm.homepage}" target="_blank">${algorithm.name}</a>
+                                    <p>${algorithm.description}</p>
+                                </div>
+                            </div>
+                        `;
+
+                        if (algorithm.site_id < 4) {
+                            $('#card-wrap1').append(temp_html);
+                        } else {
+                            $('#card-wrap2').append(temp_html);
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error: ', error);
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>

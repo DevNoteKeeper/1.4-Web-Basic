@@ -80,12 +80,12 @@
     <header-component></header-component>
     <div class="registration-form">
         <div class="title">Competition Registration</div>
-        <form>
+        <form enctype="multipart/form-data" method="post" action="/register">
         <div class="form-box">
             <p style="font-weight: 500; font-size:24px; margin-top: 0; margin-bottom: 20px;">Announcement Details</p>
 
             <label for="competition-title">Title<span style="color:#CC7183"> *</label>
-            <input type="text" id="competition-title" name="competition-title"/>
+            <input type="text" id="competition-title" name="title"/>
             <br>
 
             <label for="tags">Tags<span style="color:#CC7183"> *</label>
@@ -93,12 +93,12 @@
             <br>
 
             <label for="duration">Apply duration<span style="color:#CC7183"> *</label>
-            <input type="date" id="duration" name="duration"/> ~ 
-            <input type="date" id="duration" name="duration"/>
+            <input type="date" id="start-date" name="startDate"/> ~ 
+            <input type="date" id="end-date" name="endDate"/>
             <br>
 
             <label for="hompage">Hompage<span style="color:#CC7183"> *</label>
-            <input type="url" id="hompage" name="hompage"/>
+            <input type="url" id="homepage" name="homepage"/>
             <br>
 
             <label for="poster">Poster<span style="color:#CC7183"> *</label>
@@ -120,8 +120,9 @@
             <input type="email" id="email" name="email"/>
         </div>
 
-        <div id="editor"></div>
-        <input type="submit" id="save" class="save" value="Save" />
+        <textarea id="editor" name="context">
+           </textarea>
+        <input type="submit" id="save" class="save" value="Save" onclick="save_form()"/>
         </form>
     </div>
 
@@ -136,7 +137,20 @@
                 tabsize: 2,
                 height: 455
             });
+        
+            $('form').on('submit', function(event) {
+                // Encode HTML content before submitting
+                var encodedContent = encodeURIComponent($('#editor').summernote('code'));
+                $('#context').val(encodedContent);
+            });
+            
         });
+
+        
+        
+        
+
+        
       </script>
 </body>
 </html>

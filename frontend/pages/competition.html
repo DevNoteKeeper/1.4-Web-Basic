@@ -7,6 +7,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/components/RecommendCompetition.js" defer></script>
     <title>DevHub</title>
 </head>
@@ -67,7 +70,7 @@
         font-size: 18px;
         font-weight: 400;
     }
-    .views > span{
+    .views > span:first-child{
         color: #CC7183;
         margin-right: 30px;
     }
@@ -104,7 +107,7 @@
             <div style="margin-right: 15px;">&#128293;</div>
             <div>All Competition</div>
         </div>
-        <div class="card-wrap">
+        <div class="card-wrap" id="card-wrap">
             <div class="card" >
                 <div class="contents">
                     <img src="/images/challenge.png"/>
@@ -114,11 +117,9 @@
                         </p>                            
                         <div class="views">
                             <span>D-10</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
-                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
-                            </svg>
+                            <span class="glyphicon glyphicon-eye-open" style="margin-right: 10px;"></span>
                             27
+                        
                         </div>
                         <div class="tags">
                             #IT, #Hackaton, #Environment
@@ -131,37 +132,89 @@
                 <a href="/compete_hub/1/posts" onclick="location.href='competition_postBoard.html'">Team Formation &nbsp<span class="post-number">2</span></a>
                 </div>
             </div>
-            <div class="card">
-                <div class="contents">
-                    <img src="/images/challenge.png"/>
-                    <div class="contents-info">
-                        <p>
-                            Competition Title
-                        </p>                            
-                        <div class="views">
-                            <span>D-10</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
-                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
-                            </svg>
-                            27
-                        </div>
-                        <div class="tags">
-                            #IT, #Hackaton, #Environment
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="button-wrap">
-                <a>Introduction</a>
-                <a>Team Formation &nbsp<span class="post-number">2</span></a>
-                </div>
-            </div>
             
         </div>
     </div>
     <footer-component></footer-component>
-    <script src="/components/Header.js"></script>
-    <script src="/components/Footer.js"></script>
+    <script type="module" src="/components/Header.js"></script>
+    <script type="module" src="/components/Footer.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url: 'api/competition',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    data.forEach(function(competition){
+                        console.log(competition)
+                        const imageUrl = `/${competition.poster.replace(/\\/g, '/')}`;
+                        
+                        let dday = Math.ceil((new Date(competition.endDate) - Date.now()) / (1000 * 60 * 60 * 24));
+                        if(dday < 0){
+                            let temp_html = `
+                        <div class="card">
+                            <div class="contents">
+                                <img src="${imageUrl}"/>
+                                <div class="contents-info">
+                                    <p>
+                                        ${competition.title}
+                                    </p>                            
+                                    <div class="views">
+                                        <span>CLOSED</span>
+                                        <span class="glyphicon glyphicon-eye-open" style="margin-right: 10px;"></span>
+                                        27
+                                    </div>
+                                    <div class="tags">
+                                        ${competition.tags}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="button-wrap">
+                                <a href="/compete_hub/${competition.competition_id}" onclick="location.href='competition_detail.html'">Introduction</a>
+                                <a href="/compete_hub/${competition.competition_id}/posts" onclick="location.href='competition_postBoard.html'">Team Formation &nbsp<span class="post-number">2</span></a>
+                                </div>
+                        </div>
+                        `;
+                        $('#card-wrap').append(temp_html);
+                        }else{
+                            let temp_html = `
+                            <div class="card">
+                                <div class="contents">
+                                    <img src="${imageUrl}"/>
+                                    <div class="contents-info">
+                                        <p>
+                                            ${competition.title}
+                                        </p>                            
+                                        <div class="views">
+                                            <span>D-${dday}</span>
+                                            <span class="glyphicon glyphicon-eye-open" style="margin-right: 10px;"></span>
+                                            27
+                                        </div>
+                                        <div class="tags">
+                                            ${competition.tags}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="button-wrap">
+                                    <a href="/compete_hub/${competition.competition_id}" onclick="location.href='competition_detail.html'">Introduction</a>
+                                    <a href="/compete_hub/${competition.competition_id}/posts" onclick="location.href='competition_postBoard.html'">Team Formation &nbsp<span class="post-number">2</span></a>
+                                </div>
+                            </div>
+                            `;
+                            $('#card-wrap').append(temp_html);
+                        }
+                        
+                        
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error: ', error);
+                }
+            });
+        });
+    </script>
+    
 </body>
 </html>

@@ -6,12 +6,19 @@ const sqlite3 = require('sqlite3').verbose();
 const algorithmdb = new sqlite3.Database('algorithm.db');
 const competitiondb = new sqlite3.Database('competition.db');
 const app = express();
+const { v4: uuidv4 } = require('uuid');
+
+// 새로운 competition_id를 생성하는 함수
+function generateCompetitionId() {
+    return uuidv4();
+}
+
 
 // Serve static files from the "frontend" directory
 app.use(express.static(path.resolve(__dirname, '../frontend')));
+app.use('/static', express.static(path.resolve(__dirname, 'static')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 // Configure multer for file uploads
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -31,11 +38,51 @@ app.get('/', (req, res) => {
 app.get('/compete_hub', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition.html'));
 });
-app.get('/compete_hub/1', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition_detail.html'));
+app.get('/compete_hub/:competitionId', (req, res) => {
+
+     res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition_detail.html'));
 });
-app.get('/compete_hub/1/posts*', (req, res) => {
+app.get('/api/competition/:competitionId', (req, res)=>{
+    const competitionId = req.params.competitionId;
+
+    const query = `
+        SELECT c.*, cp.company
+        FROM Competition c
+        INNER JOIN ContactPerson cp ON c.competition_id = cp.competition_id
+        WHERE c.competition_id = ?
+    `;
+    competitiondb.get(query, [competitionId], (err, row)=>{
+        if(err){
+            console.err(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        if(!row){
+            res.status(404).send('Competition not found');
+            return;
+        }
+        res.status(200).json(row);
+    })
+})
+app.get('/compete_hub/:competitionId/posts*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition_postBoard.html'));
+});
+
+// API endpoint to get all Competition
+app.get('/api/competition', (req, res) => {
+    const query = "SELECT * FROM Competition";
+    competitiondb.all(query, [], (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        if (!rows || rows.length === 0) {
+            res.status(400).send('Data not found');
+            return;
+        }
+        res.status(200).json(rows);
+    });
 });
 
 // Serve algorithm.html page when accessing /algorithm_hub
@@ -67,7 +114,7 @@ app.get('/registration', (req, res) => {
 app.post('/register', upload.single('poster'), (req, res) => {
     const { title, startDate, endDate, homepage, context, tags, company, name, email } = req.body;
     const poster = req.file ? req.file.path : null;
-    const competition_id = `${title}${startDate}`;
+    const competition_id = generateCompetitionId();
 
     const insertCompetition = `
         INSERT INTO Competition (competition_id, title, startDate, endDate, homepage, poster, context, tags)

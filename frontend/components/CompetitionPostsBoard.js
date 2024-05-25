@@ -37,10 +37,12 @@ class CompetitionPostsBoard extends HTMLElement {
         document.head.appendChild(linkElement);
     }
     handlePostButtonClick() {
-        window.location.href = '/compete_hub/1/posts/recruitment';
+        let competitionId = window.location.pathname.split('/')[2];
+        window.location.href = '/compete_hub/'+competitionId+'/posts/recruitment';
     }
     handlePostMove(){
-        window.location.href = '/compete_hub/1/posts/1';
+        let competitionId = window.location.pathname.split('/')[2];
+        window.location.href = '/compete_hub/'+competitionId+'/posts/1';
     }
 
 }

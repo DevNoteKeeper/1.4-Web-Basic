@@ -45,8 +45,4 @@ const db = new Database('competition.db');
 // `
 
 // db.exec(query);
-const query = `DELETE FROM ContactPerson;`
-const sites = db.prepare(query);
-console.log(sites);
-
 db.close();

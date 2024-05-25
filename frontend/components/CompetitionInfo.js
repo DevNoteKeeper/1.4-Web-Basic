@@ -7,20 +7,36 @@ class CompetitionInfo extends HTMLElement{
             let box = document.createElement('div');
             box.classList.add('info-wrap');
 
-            box.innerHTML = 
+            let competitionId = window.location.pathname.split('/')[2];
+            
+            $.ajax({
+                url:'/api/competition/'+competitionId,
+                type: 'GET',
+                data: 'json',
+                success: function(competition){
+                    console.log(competition)
+                    const imageUrl = `/${competition.poster.replace(/\\/g, '/')}`;
+                    box.innerHTML = 
             `<div class="info">
-            <img src="/images/challenge.png" />
+            <img src="${imageUrl}" />
             <div class="text-box">
-            <p>Competition Title</p>
-            <div class="tags">#IT, #Hackaton, #Environment</div>
-            <div style="margin-bottom: 15px;">HostCompany</div>
-            <div>2024.05.06 ~ 2024.05.30</div>
-            <button type="button" class="apply-button">Apply</button>
+            <p>${competition.title}</p>
+            <div class="tags">${competition.tags}</div>
+            <div style="margin-bottom: 15px;">${competition.company}</div>
+            <div>${competition.startDate} ~ ${competition.endDate}</div>
+            <button type="button" class="apply-button" onclick="location.href='${competition.homepage}'">Apply</button>
             </div>
             </div>
             <nav-component></nav-component>
 
             `;
+                },
+                error: function(xhr, status, error){
+                    console.error('Error: ', error);
+                }
+            })
+
+            
 
             this.appendChild(box);
         };

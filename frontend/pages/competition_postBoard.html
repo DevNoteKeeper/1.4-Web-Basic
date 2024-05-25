@@ -14,20 +14,21 @@
     document.addEventListener('DOMContentLoaded', () => {
         const contentDiv = document.getElementById('content');
         const currentURL = window.location.pathname;
+        let competitionId = window.location.pathname.split('/')[2];
     
-        if (currentURL === '/compete_hub/1/posts') {
+        if (currentURL === '/compete_hub/'+competitionId+'/posts') {
             console.log(currentURL);
             contentDiv.innerHTML = `
             <board-component></board-component>
             `;
         }
-        if (currentURL === '/compete_hub/1/posts/1') {
+        if (currentURL === '/compete_hub/'+competitionId+'/posts/1') {
             console.log(currentURL);
             contentDiv.innerHTML = `
                 <post-component></post-component>
             `;
         }
-        if (currentURL === '/compete_hub/1/posts/recruitment') {
+        if (currentURL === '/compete_hub/'+competitionId+'/posts/recruitment') {
             console.log(currentURL);
             contentDiv.innerHTML = `
                 <recruitment-component></recruitment-component>
@@ -40,20 +41,20 @@
     <header-component></header-component>
     <info-component></info-component>
     <div id="content">
-        <script src="/components/CompetitionPostsBoard.js"></script>
-    <script src="/components/CompetitionPost.js"></script>
-    <script src="/components/RecruitmentComponent.js"></script>
+    <script type="module" src="/components/CompetitionPostsBoard.js"></script>
+    <script type="module" src="/components/CompetitionPost.js"></script>
+    <script type="module" src="/components/RecruitmentComponent.js"></script>
 </div>
     <footer-component></footer-component>
 
 
-    <script src="/components/Header.js"></script>
-    <script src="/components/CompetitionInfo.js"></script>
+    <script type="module" src="/components/Header.js"></script>
+    <script type="module" src="/components/CompetitionInfo.js"></script>
 
     
 
-    <script src="/components/CompetitionNav.js"></script>
-    <script src="/components/Footer.js"></script>
+    <script type="module" src="/components/CompetitionNav.js"></script>
+    <script type="module" src="/components/Footer.js"></script>
 
     
 </body>

@@ -7,10 +7,11 @@ class CompetitionNav extends HTMLElement {
         linkElement.onload = () => {
             let box = document.createElement('div');
             box.classList.add('nav');
+            let competitionId = window.location.pathname.split('/')[2];
 
             box.innerHTML = `
-                <div class="competition-intro"><a href="/compete_hub/1" onclick="location.href='competition_detail.html'">Introduction</a></div>
-                <div class="competition-recruit"><a href="/compete_hub/1/posts" onclick="location.href='competition_postBoard.html'">Recruit Team Members</a></div>
+                <div class="competition-intro"><a href="/compete_hub/${competitionId}" onclick="location.href='competition_detail.html'">Introduction</a></div>
+                <div class="competition-recruit"><a href="/compete_hub/${competitionId}/posts" onclick="location.href='competition_postBoard.html'">Recruit Team Members</a></div>
             `;
 
             this.appendChild(box);

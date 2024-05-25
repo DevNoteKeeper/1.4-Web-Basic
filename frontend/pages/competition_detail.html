@@ -23,13 +23,28 @@
 <body>
     <header-component></header-component>
     <info-component></info-component>
-    <div class="description">
+    <div class="description" id="description">
         Description
     </div>
     <footer-component></footer-component>
-    <script src="/components/Header.js"></script>
-    <script src="/components/CompetitionInfo.js"></script>
-    <script src="/components/CompetitionNav.js"></script>
-    <script src="/components/Footer.js"></script>
+    <script type="module" src="/components/Header.js"></script>
+    <script type="module" src="/components/CompetitionInfo.js"></script>
+    <script type="module" src="/components/CompetitionNav.js"></script>
+    <script type="module" src="/components/Footer.js"></script>
+    <script>
+        $(document).ready(function(){
+            let competitionId = window.location.pathname.split('/')[2];
+            $.ajax({
+                url:'/api/competition/'+competitionId,
+                type: 'GET',
+                data: 'json',
+                success: function(competition){
+                    console.log(competition)
+                    let temp_html = `${competition.context}`
+                    $('#description').append(temp_html);
+                }
+            })
+        })
+    </script>
 </body>
 </html>

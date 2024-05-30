@@ -38,6 +38,24 @@ app.get('/', (req, res) => {
 app.get('/compete_hub', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition.html'));
 });
+
+// API endpoint to get all Competition
+app.get('/api/competition', (req, res) => {
+    const query = "SELECT * FROM Competition";
+    competitiondb.all(query, [], (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        if (!rows || rows.length === 0) {
+            res.status(400).send('Data not found');
+            return;
+        }
+        res.status(200).json(rows);
+    });
+});
+
 app.get('/compete_hub/:competitionId', (req, res) => {
 
      res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition_detail.html'));
@@ -62,28 +80,50 @@ app.get('/api/competition/:competitionId', (req, res)=>{
             return;
         }
         res.status(200).json(row);
-    })
-})
+    });
+});
+
 app.get('/compete_hub/:competitionId/posts*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition_postBoard.html'));
 });
 
-// API endpoint to get all Competition
-app.get('/api/competition', (req, res) => {
-    const query = "SELECT * FROM Competition";
-    competitiondb.all(query, [], (err, rows) => {
-        if (err) {
+app.post('/compete_hub/:competitionId/posts/recruitment', (req, res) => {
+    const competition_id = req.params.competitionId;
+    const { title, password, context } = req.body;
+    const currentDate = new Date();
+    const registerDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+
+    const insertRecruitment = `
+        INSERT INTO RecruitBoard (competition_id, title, password, context, registerDate) VALUES (?, ?, ?, ?, ?)
+    `;
+
+    competitiondb.run(insertRecruitment, [competition_id, title, password, context, registerDate], (err) =>{
+        if(err){
             console.error(err.message);
             res.status(500).send('Internal server error');
             return;
         }
-        if (!rows || rows.length === 0) {
-            res.status(400).send('Data not found');
+        res.status(200).send('Recruitment post saved successfully')
+    })
+});
+
+app.get('/api/competition/:competitionId/posts', (req, res)=>{
+    const competitionId = req.params.competitionId;
+
+    const query = `
+        SELECT post_id, title, registerDate, competition_id FROM RecruitBoard
+        WHERE competition_id = ?
+    `;
+    competitiondb.all(query, [competitionId], (err, row)=>{
+        if(err){
+            console.err(err.message);
+            res.status(500).send('Internal server error');
             return;
         }
-        res.status(200).json(rows);
+        res.status(200).json(row);
     });
 });
+
 
 // Serve algorithm.html page when accessing /algorithm_hub
 app.get('/algorithm_hub', (req, res) => {

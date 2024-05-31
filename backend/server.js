@@ -124,6 +124,67 @@ app.get('/api/competition/:competitionId/posts', (req, res)=>{
     });
 });
 
+app.get('/api/competition/:competitionId/posts/:postId', (req, res)=>{
+    const competitionId = req.params.competitionId;
+    const postId = req.params.postId;
+
+    const query = `
+        SELECT * FROM RecruitBoard
+        WHERE competition_id = ? AND post_id = ?
+    `;
+    competitiondb.get(query, [competitionId, postId], (err, row)=>{
+        if(err){
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        if (!row) {
+            res.status(404).send('Post not found');
+            return;
+        }
+        res.status(200).json(row);
+    });
+});
+
+app.post('/compete_hub/:competitionId/posts/:postId/comments', (req, res) => {
+    const competitionId = req.params.competitionId;
+    const postId = req.params.postId;
+    const { name, comment } = req.body;
+    const currentDate = new Date();
+    const registerDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+    const randomNum = Math.floor(Math.random() * 1001);
+    const commentId = postId + ' ' + randomNum;
+
+    const insertComment = `
+        INSERT INTO Comment (comment_id, post_id, name, registerDate, comment) VALUES (?, ?, ?, ?, ?)
+    `;
+
+    competitiondb.run(insertComment, [commentId, postId, name, registerDate, comment], (err) =>{
+        if(err){
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        res.status(200).send('Comment saved successfully')
+    })
+});
+
+app.get('/api/competition/:competitionId/posts/:postId/comments', (req, res)=>{
+    const postId = req.params.postId;
+
+    const query = `
+        SELECT * FROM Comment
+        WHERE post_id = ?
+    `;
+    competitiondb.all(query, [postId], (err, rows)=>{
+        if(err){
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        res.status(200).json(rows);
+    });
+});
 
 // Serve algorithm.html page when accessing /algorithm_hub
 app.get('/algorithm_hub', (req, res) => {

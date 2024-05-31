@@ -1,23 +1,22 @@
-class CompetitionInfo extends HTMLElement{
-    connectedCallback(){
-        const linkElement = document.createElement('link');
-        linkElement.rel = 'stylesheet';
-        linkElement.href = '/components/CompetitionInfo.css';
-        linkElement.onload = () => {
-            let box = document.createElement('div');
-            box.classList.add('info-wrap');
+class CompetitionInfo extends HTMLElement {
+  connectedCallback() {
+    const linkElement = document.createElement("link");
+    linkElement.rel = "stylesheet";
+    linkElement.href = "/components/CompetitionInfo.css";
+    linkElement.onload = () => {
+      let box = document.createElement("div");
+      box.classList.add("info-wrap");
 
-            let competitionId = window.location.pathname.split('/')[2];
-            
-            $.ajax({
-                url:'/api/competition/'+competitionId,
-                type: 'GET',
-                data: 'json',
-                success: function(competition){
-                    console.log(competition)
-                    const imageUrl = `/${competition.poster.replace(/\\/g, '/')}`;
-                    box.innerHTML = 
-            `<div class="info">
+      let competitionId = window.location.pathname.split("/")[2];
+
+      $.ajax({
+        url: "/api/competition/" + competitionId,
+        type: "GET",
+        data: "json",
+        success: function (competition) {
+          console.log(competition);
+          const imageUrl = `/${competition.poster.replace(/\\/g, "/")}`;
+          box.innerHTML = `<div class="info">
             <img src="${imageUrl}" />
             <div class="text-box">
             <p>${competition.title}</p>
@@ -30,20 +29,16 @@ class CompetitionInfo extends HTMLElement{
             <nav-component></nav-component>
 
             `;
-                },
-                error: function(xhr, status, error){
-                    console.error('Error: ', error);
-                }
-            })
+        },
+        error: function (xhr, status, error) {
+          console.error("Error: ", error);
+        },
+      });
 
-            
+      this.appendChild(box);
+    };
 
-            this.appendChild(box);
-        };
-
-        document.head.appendChild(linkElement);
-
-    
-    }
+    document.head.appendChild(linkElement);
+  }
 }
-customElements.define('info-component', CompetitionInfo);
+customElements.define("info-component", CompetitionInfo);

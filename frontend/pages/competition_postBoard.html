@@ -15,23 +15,23 @@
         const contentDiv = document.getElementById('content');
         const currentURL = window.location.pathname;
         let competitionId = window.location.pathname.split('/')[2];
-    
-        if (currentURL === '/compete_hub/'+competitionId+'/posts') {
-            console.log(currentURL);
+
+        if (currentURL === `/compete_hub/${ competitionId }/posts`) {
             contentDiv.innerHTML = `
             <board-component></board-component>
             `;
         }
-        if (currentURL === '/compete_hub/'+competitionId+'/posts/1') {
-            console.log(currentURL);
-            contentDiv.innerHTML = `
-                <post-component></post-component>
-            `;
-        }
-        if (currentURL === '/compete_hub/'+competitionId+'/posts/recruitment') {
-            console.log(currentURL);
+
+        if (currentURL === `/compete_hub/${ competitionId }/posts/recruitment`) {
             contentDiv.innerHTML = `
                 <recruitment-component></recruitment-component>
+            `;
+        }
+
+        const postRegex = new RegExp('^/compete_hub/' + competitionId + '/posts/\\d+$');
+        if (postRegex.test(currentURL)) {
+            contentDiv.innerHTML = `
+                <post-component></post-component>
             `;
         }
     });

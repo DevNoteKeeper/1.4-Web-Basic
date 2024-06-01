@@ -35,6 +35,27 @@ const upload = multer({ storage: storage });
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../frontend', 'pages/index.html'));
 });
+// API endpoint to get top 3 posts by comment count
+app.get('/api/top_posts', (req, res) => {
+    const query =`
+    SELECT rb.post_id, rb.title AS post_title, rb.competition_id, cmp.title AS competition_title, COUNT(c.comment_id) AS comment_count
+    FROM RecruitBoard rb
+    LEFT JOIN Comment c ON rb.post_id = c.post_id
+    INNER JOIN Competition cmp ON rb.competition_id = cmp.competition_id
+    GROUP BY rb.post_id
+    ORDER BY comment_count DESC
+    LIMIT 3
+    `;
+
+    competitiondb.all(query, [], (err, rows) => {
+        if(err){
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        res.status(200).json(rows);
+    });
+});
 app.get('/compete_hub', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition.html'));
 });

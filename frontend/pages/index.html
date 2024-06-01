@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,25 +12,29 @@
     <title>DevHub</title>
 </head>
 <style>
-    body{
+    body {
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
-    .banner-wrap{
+
+    .banner-wrap {
         width: 1200px;
         margin: 50px auto;
     }
-    .banner > img{
+
+    .banner>img {
         width: 100%;
         height: 400px;
         border-radius: 35px;
         object-fit: cover;
     }
-    .prev, .next {
+
+    .prev,
+    .next {
         cursor: pointer;
         position: absolute;
-        top: 50%;	
+        top: 50%;
         width: auto;
         padding: 16px;
         margin-top: -22px;
@@ -38,32 +43,46 @@
         font-size: 18px;
         transition: 0.6s ease;
         border-radius: 0 3px 3px 0;
-      }
+    }
+
     .next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
+        right: 0;
+        border-radius: 3px 0 0 3px;
     }
-    .prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
+
+    .prev:hover,
+    .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
     }
+
     .fade {
         -webkit-animation-name: fade;
         -webkit-animation-duration: 1.5s;
         animation-name: fade;
         animation-duration: 1.5s;
-      }
-      
-      @-webkit-keyframes fade {
-        from {opacity: .4} 
-        to {opacity: 1}
-      }
-      
-      @keyframes fade {
-        from {opacity: .4} 
-        to {opacity: 1}
-      }
+    }
 
-    .teammate{
+    @-webkit-keyframes fade {
+        from {
+            opacity: .4
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    @keyframes fade {
+        from {
+            opacity: .4
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    .teammate {
         font-family: "Fredoka", sans-serif;
         color: #414656;
 
@@ -75,7 +94,8 @@
         align-items: center;
         justify-content: center;
     }
-    .title{
+
+    .title {
         font-size: 32px;
         font-weight: 700;
         display: flex;
@@ -83,11 +103,13 @@
         align-items: center;
         margin-right: 100px;
     }
-    .card-wrap{
+
+    .card-wrap {
         display: flex;
         flex-direction: row;
     }
-    .teammate-card{
+
+    .teammate-card {
         width: 250px;
         height: auto;
         overflow: hidden;
@@ -95,26 +117,28 @@
         border-radius: 15px;
         margin-right: 50px;
     }
-    .teammate-card:last-child{
+
+    .teammate-card:last-child {
         margin-right: 0px;
     }
-    .teammate-context{
+
+    .teammate-context {
         display: flex;
         flex-direction: column;
 
         padding: 20px 15px;
     }
-    .teammate-context>p{
+
+    .teammate-context>p {
         font-size: 18px;
         font-weight: 400;
     }
-    .card-title{
+
+    .card-title {
         font-size: 20px;
         font-weight: 600;
         white-space: normal;
     }
-
-      
 </style>
 
 
@@ -122,7 +146,7 @@
     <header-component></header-component>
     <div class="banner-wrap">
         <div class="rolling-banner">
-            <div class="banner fade active"> <img src = "/images/2023-hackathon.jpg"></div>
+            <div class="banner fade active"> <img src="/images/2023-hackathon.jpg"></div>
             <div class="banner fade"> <img src="/images/challenge.png"></div>
         </div>
         <!-- <div class="slide-button">
@@ -135,31 +159,11 @@
     <div class="teammate">
         <div class="title">
             <div style="margin-right: 15px;">&#128373;</div>
-            <div>Find<br/>teammate</div>
+            <div>Find<br />teammate</div>
         </div>
 
         <div class="card-wrap">
-            <div class="teammate-card">
-                <div class="teammate-context">
-                    <p>Competition Title</p>
-                    <div class="card-title">we already have 3 who do u want last one!</div>
-                    
-                </div>
-            </div>
-            <div class="teammate-card">
-                <div class="teammate-context">
-                    <p>Competition Title</p>
-                    <div class="card-title">we already have 3 who do u want last one!</div>
-                    
-                </div>
-            </div>
-            <div class="teammate-card">
-                <div class="teammate-context">
-                    <p>Competition Title</p>
-                    <div class="card-title">we already have 3 who do u want last one!</div>
-                    
-                </div>
-            </div>
+
         </div>
 
     </div>
@@ -171,59 +175,97 @@
 
 </body>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $(".banner").not(".active").hide();
         console.log("check");
         setInterval(nextSlide, 4000);
     });
 
 
-    function prevSlide(){
+    function prevSlide() {
         $(".banner").hide();
 
         let allSlide = $(".banner");
         let currentIndex = 0;
 
-        $(".banner").each(function(index, item){
-            if($(this).hasClass("active")){
+        $(".banner").each(function (index, item) {
+            if ($(this).hasClass("active")) {
                 currentIndex = index;
             }
         });
-         let newIndex = 0;
-         if(currentIndex <= 0){
-            newIndex = allSlide.length-1;
-         }else{
-            newIndex = currentIndex-1;
-         }
+        let newIndex = 0;
+        if (currentIndex <= 0) {
+            newIndex = allSlide.length - 1;
+        } else {
+            newIndex = currentIndex - 1;
+        }
 
-         $(".banner").removeClass("active");
-        
-         $(".banner").eq(newIndex).addClass("active");
-         $(".banner").eq(newIndex).show();
+        $(".banner").removeClass("active");
+
+        $(".banner").eq(newIndex).addClass("active");
+        $(".banner").eq(newIndex).show();
 
     }
 
-    function nextSlide(){
+    function nextSlide() {
         $(".banner").hide();
         let allSlide = $(".banner");
         let currentIndex = 0;
 
-        $(".banner").each(function(index, item){
-            if($(this).hasClass("active")){
+        $(".banner").each(function (index, item) {
+            if ($(this).hasClass("active")) {
                 currentIndex = index;
             }
         });
 
         let newIndex = 0;
-        if(currentIndex >= allSlide.length-1){
+        if (currentIndex >= allSlide.length - 1) {
             newIndex = 0;
-        }else{
-            newIndex = currentIndex+1;
+        } else {
+            newIndex = currentIndex + 1;
         }
         $(".banner").removeClass("active");
         $(".banner").eq(newIndex).addClass("active");
         $(".banner").eq(newIndex).show();
     }
 
+    //Fetch top 3 posts by comment count
+    $.ajax({
+        url: '/api/top_posts',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if (data.length > 0) {
+                $('#teammate-cards').empty();
+                data.forEach(function (post) {
+                    console.log(post)
+                    let cardHtml = `
+                            <div class="teammate-card" data-competition-id="${post.competition_id}" data-post-id="${post.post_id}">
+                                <div class="teammate-context">
+                                    <p>${post.competition_title}</p>
+                                    <div class="card-title">${post.post_title}</div>
+                                </div>
+                            </div>
+                        `;
+                    $('.card-wrap').append(cardHtml);
+                });
+            } else {
+                $('.card-wrap').html('<p style="font-weight: 700;">Currently, there are no competitions looking for teammates.</p>');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error: ', error);
+        }
+    });
+
+    $(document).on('click', '.teammate-card', function(){
+        let competitionId = $(this).data('competitionId');
+        let postId = $(this).data('postId');
+
+        let url = '/compete_hub/' + competitionId + '/posts/' + postId;
+        window.location.href = url;
+    })
+
 </script>
+
 </html>

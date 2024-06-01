@@ -41,7 +41,13 @@ app.get('/compete_hub', (req, res) => {
 
 // API endpoint to get all Competition
 app.get('/api/competition', (req, res) => {
-    const query = "SELECT * FROM Competition";
+    const query = `
+        SELECT c.*, 
+               COALESCE(COUNT(rb.post_id), 0) AS post_count
+        FROM Competition c
+        LEFT JOIN RecruitBoard rb ON c.competition_id = rb.competition_id
+        GROUP BY c.competition_id
+    `;
     competitiondb.all(query, [], (err, rows) => {
         if (err) {
             console.error(err.message);
@@ -111,8 +117,11 @@ app.get('/api/competition/:competitionId/posts', (req, res)=>{
     const competitionId = req.params.competitionId;
 
     const query = `
-        SELECT post_id, title, registerDate, competition_id FROM RecruitBoard
-        WHERE competition_id = ?
+        SELECT rb.post_id, rb.title, rb.registerDate, rb.competition_id, COUNT(c.comment_id) AS comment_count
+        FROM RecruitBoard rb
+        LEFT JOIN Comment c ON rb.post_id = c.post_id
+        WHERE rb.competition_id = ?
+        GROUP BY rb.post_id
     `;
     competitiondb.all(query, [competitionId], (err, row)=>{
         if(err){
@@ -147,7 +156,6 @@ app.get('/api/competition/:competitionId/posts/:postId', (req, res)=>{
 });
 
 app.post('/compete_hub/:competitionId/posts/:postId/comments', (req, res) => {
-    const competitionId = req.params.competitionId;
     const postId = req.params.postId;
     const { name, comment } = req.body;
     const currentDate = new Date();

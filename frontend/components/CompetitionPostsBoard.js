@@ -21,13 +21,13 @@ class CompetitionPostsBoard extends HTMLElement {
                     postElement.classList.add('post');
                     postElement.dataset.postId = post.post_id;
 
-                    postElement.innerHTML = postElement.innerHTML = `
+                    postElement.innerHTML = `
                     <p class="post-title" style="cursor:pointer">${post.title}</p>
                     <div class="post-metadata">
                         <div style="margin-right: 30px;">${post.registerDate}</div>
                         <div class="post-comment">
                             <i class="fa fa-comments-o" style="margin-right: 10px;"></i>
-                            <div>03</div>
+                            <div>${post.comment_count}</div>
                         </div>
                     </div>
                 `;

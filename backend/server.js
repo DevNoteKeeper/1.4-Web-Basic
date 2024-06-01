@@ -56,6 +56,32 @@ app.get('/api/top_posts', (req, res) => {
         res.status(200).json(rows);
     });
 });
+
+// API endpoint to get top 3 Competition by post count
+app.get('/api/top_competition', (req, res) => {
+    const query = `
+        SELECT c.competition_id, c.title, COUNT(rb.post_id) AS post_count, cp.company, c.endDate, c.poster
+        FROM Competition c
+        LEFT JOIN RecruitBoard rb ON c.competition_id = rb.competition_id
+        INNER JOIN ContactPerson cp ON c.competition_id = cp.competition_id
+        GROUP BY c.competition_id, c.title, cp.company
+        ORDER BY post_count DESC
+        LIMIT 3;
+    
+    `;
+    competitiondb.all(query, [], (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        if (!rows || rows.length === 0) {
+            res.status(400).send('Data not found');
+            return;
+        }
+        res.status(200).json(rows);
+    });
+});
 app.get('/compete_hub', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../frontend', 'pages/competition.html'));
 });

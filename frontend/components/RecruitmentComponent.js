@@ -38,7 +38,7 @@ class RecruitmentComponent extends HTMLElement {
         const pathArray = window.location.pathname.split('/');
         const competitionId = pathArray[2];
 
-        const response = await fetch(`/compete_hub/${competitionId}/posts/recruitment`,{
+        const response = await fetch(`/api/competition/${competitionId}/posts/recruitment`,{  // 수정된 URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,10 +58,6 @@ class RecruitmentComponent extends HTMLElement {
         }
 
     }
-
-    
-    
 }
 
 customElements.define('recruitment-component', RecruitmentComponent);
-

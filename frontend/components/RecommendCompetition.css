@@ -25,6 +25,9 @@
 }
 .competition-card{
     margin-right: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .competition-card:last-child{
     margin-right: 0px;
@@ -37,8 +40,12 @@
 }
 .competition-context{
     height: 100px;
+    width: 250px;
     font-weight: 400;
-    padding: 10px 15px;
+    padding: 10px 0px;
+}
+.competition-context > p{
+    margin: 10px 0px;
 }
 .card-title{
     font-size: 20px;

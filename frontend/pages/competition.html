@@ -70,12 +70,12 @@
         font-size: 24px;
         font-weight: 700;
     }
-    .views{
+    .dday{
         font-size: 18px;
         font-weight: 400;
-    }
-    .views > span:first-child{
         color: #CC7183;
+    }
+    .dday > span:first-child{
         margin-right: 30px;
     }
     .button-wrap{
@@ -133,10 +133,8 @@
                                     <img src="${imageUrl}" />
                                     <div class="contents-info">
                                         <p>${competition.title}</p>                            
-                                        <div class="views">
-                                            <span>${dday < 0 ? 'CLOSED' : 'D-' + dday}</span>
-                                            <span class="glyphicon glyphicon-eye-open" style="margin-right: 10px;"></span>
-                                            27
+                                        <div class="dday">
+                                            <span ">${dday < 0 ? 'CLOSED' : 'D-' + dday}</span>
                                         </div>
                                         <div class="tags">
                                             ${competition.tags}

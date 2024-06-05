@@ -15,7 +15,6 @@ class Header extends HTMLElement {
                     <a href="/compete_hub">Compete_Hub</a>
                     <a href="/algorithm_hub">Algorithms_Hub</a>
                 </div>
-                <input class="searching_bar" type="text" placeholder="   Searching..." />
                 <button class="registration" onClick="location.href='/registration'">Registration</button>
             `;
 

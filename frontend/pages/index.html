@@ -125,7 +125,6 @@
     .teammate-context {
         display: flex;
         flex-direction: column;
-
         padding: 20px 15px;
     }
 
@@ -141,7 +140,6 @@
     }
 </style>
 
-
 <body>
     <header-component></header-component>
     <div class="banner-wrap">
@@ -149,10 +147,6 @@
             <div class="banner fade active"> <img src="/images/2023-hackathon.jpg"></div>
             <div class="banner fade"> <img src="/images/challenge.png"></div>
         </div>
-        <!-- <div class="slide-button">
-            <a class="prev" onclick="prevSlide()">&#10094;</a>
-            <a class="next" onclick="nextSlide()">&#10095;</a>
-        </div> -->
     </div>
 
     <recommend-component></recommend-component>
@@ -162,110 +156,104 @@
             <div>Find<br />teammate</div>
         </div>
 
-        <div class="card-wrap">
-
+        <div class="card-wrap" id="findTeammate">
+           
         </div>
-
     </div>
     <footer-component></footer-component>
 
-
     <script type="module" src="/components/Header.js"></script>
     <script type="module" src="/components/Footer.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".banner").not(".active").hide();
+            console.log("check");
+            setInterval(nextSlide, 4000);
 
-</body>
-<script>
-    $(document).ready(function () {
-        $(".banner").not(".active").hide();
-        console.log("check");
-        setInterval(nextSlide, 4000);
-    });
-
-
-    function prevSlide() {
-        $(".banner").hide();
-
-        let allSlide = $(".banner");
-        let currentIndex = 0;
-
-        $(".banner").each(function (index, item) {
-            if ($(this).hasClass("active")) {
-                currentIndex = index;
-            }
-        });
-        let newIndex = 0;
-        if (currentIndex <= 0) {
-            newIndex = allSlide.length - 1;
-        } else {
-            newIndex = currentIndex - 1;
-        }
-
-        $(".banner").removeClass("active");
-
-        $(".banner").eq(newIndex).addClass("active");
-        $(".banner").eq(newIndex).show();
-
-    }
-
-    function nextSlide() {
-        $(".banner").hide();
-        let allSlide = $(".banner");
-        let currentIndex = 0;
-
-        $(".banner").each(function (index, item) {
-            if ($(this).hasClass("active")) {
-                currentIndex = index;
-            }
-        });
-
-        let newIndex = 0;
-        if (currentIndex >= allSlide.length - 1) {
-            newIndex = 0;
-        } else {
-            newIndex = currentIndex + 1;
-        }
-        $(".banner").removeClass("active");
-        $(".banner").eq(newIndex).addClass("active");
-        $(".banner").eq(newIndex).show();
-    }
-
-    //Fetch top 3 posts by comment count
-    $.ajax({
-        url: '/api/top_posts',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            if (data.length > 0) {
-                $('#teammate-cards').empty();
-                data.forEach(function (post) {
-                    console.log(post)
-                    let cardHtml = `
-                            <div class="teammate-card" data-competition-id="${post.competition_id}" data-post-id="${post.post_id}">
-                                <div class="teammate-context">
-                                    <p>${post.competition_title}</p>
-                                    <div class="card-title">${post.post_title}</div>
+            // Fetch top 3 posts by comment count
+            $.ajax({
+                url: '/api/competition/top/posts',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log('Data received:', data);
+                    if (data.length > 0) {
+                        $('#findTeammate').empty();
+                        data.forEach(function (post) {
+                            let cardHtml = `
+                                <div class="teammate-card" data-competition-id="${post.competition_id}" data-post-id="${post.post_id}" style="cursor:pointer;">
+                                    <div class="teammate-context">
+                                        <p>${post.competition_title}</p>
+                                        <div class="card-title">${post.post_title}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        `;
-                    $('.card-wrap').append(cardHtml);
-                });
+                            `;
+                            $('#findTeammate').append(cardHtml);
+                        });
+                    } else {
+                        $('#findTeammate').html('<p style="font-weight: 700;">Currently, there are no competitions looking for teammates.</p>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error: ', error);
+                }
+            });
+
+            $(document).on('click', '.teammate-card', function(){
+                let competitionId = $(this).data('competition-id');
+                let postId = $(this).data('post-id');
+
+                let url = '/compete_hub/' + competitionId + '/posts/' + postId;
+                window.location.href = url;
+            });
+        });
+
+        function prevSlide() {
+            $(".banner").hide();
+
+            let allSlide = $(".banner");
+            let currentIndex = 0;
+
+            $(".banner").each(function (index, item) {
+                if ($(this).hasClass("active")) {
+                    currentIndex = index;
+                }
+            });
+            let newIndex = 0;
+            if (currentIndex <= 0) {
+                newIndex = allSlide.length - 1;
             } else {
-                $('.card-wrap').html('<p style="font-weight: 700;">Currently, there are no competitions looking for teammates.</p>');
+                newIndex = currentIndex - 1;
             }
-        },
-        error: function (xhr, status, error) {
-            console.error('Error: ', error);
+
+            $(".banner").removeClass("active");
+
+            $(".banner").eq(newIndex).addClass("active");
+            $(".banner").eq(newIndex).show();
         }
-    });
 
-    $(document).on('click', '.teammate-card', function(){
-        let competitionId = $(this).data('competitionId');
-        let postId = $(this).data('postId');
+        function nextSlide() {
+            $(".banner").hide();
+            let allSlide = $(".banner");
+            let currentIndex = 0;
 
-        let url = '/compete_hub/' + competitionId + '/posts/' + postId;
-        window.location.href = url;
-    })
+            $(".banner").each(function (index, item) {
+                if ($(this).hasClass("active")) {
+                    currentIndex = index;
+                }
+            });
 
-</script>
+            let newIndex = 0;
+            if (currentIndex >= allSlide.length - 1) {
+                newIndex = 0;
+            } else {
+                newIndex = currentIndex + 1;
+            }
+            $(".banner").removeClass("active");
+            $(".banner").eq(newIndex).addClass("active");
+            $(".banner").eq(newIndex).show();
+        }
+    </script>
+</body>
 
 </html>

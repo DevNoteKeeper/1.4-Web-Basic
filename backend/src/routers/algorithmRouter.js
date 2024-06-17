@@ -5,7 +5,10 @@ const algorithmdb = new sqlite3.Database('algorithm.db');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', getSite);
+
+
+function getSite(req, res) {
     const query = "SELECT * FROM algorithmSite";
     algorithmdb.all(query, [], (err, rows) => {
         if (err) {
@@ -19,6 +22,6 @@ router.get('/', (req, res) => {
         }
         res.status(200).json(rows);
     });
-});
+}
 
 export default router;

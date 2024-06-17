@@ -14,27 +14,27 @@ class CompetitionPost extends HTMLElement {
         $.ajax({
           url: "/api/competition/" + competitionId + "/posts/" + postId,
           type: "GET",
-          dataType: "json", // 수정: dataType 변경
+          dataType: "json",
           success: function (post) {
             console.log(post);
             box.innerHTML = `
                       <div class="post">
-                          <div class="post-title">
+                          <div class="post-title" id="post-title">
                               <p>${post.title}</p>
-                              <form>
-                                  <input type="password" id="password" placeholder="password"/>
-                                  <input type="submit" id="modity" value="modity" />
-                                  <input type="submit" id="delete" value="delete" />
-                              </form>
+                                <form id="post-form">
+                                    <input type="password" id="password" placeholder="password"/>
+                                    <button type="button" id="modify">modify</button>
+                                    <button type="button" id="delete">delete</button>
+                                </form>
                           </div>
                           <div class="post-metadata">${post.registerDate}</div>
-                          <div class="post-content">
+                          <div class="post-content" id="post-content">
                               ${post.context}
                           </div>
                       </div>
   
                       <form class="comment-form">
-                          <input type="text" id="name" placeholder="Name" style="width: 100px"/> <!-- 수정: input type -->
+                          <input type="text" id="name" placeholder="Name" style="width: 100px"/>
                           <input type="text" id="comment" placeholder="Add comments" />
                           <button class="icon-button" id="submit">
                               <i class="fa fa-send-o" style="color: #A5ABBD;"></i>
@@ -79,7 +79,7 @@ class CompetitionPost extends HTMLElement {
   
                 $.ajax({
                     url: `/api/competition/${competitionId}/posts/${postId}/comments`,
-                    type: "POST", // 수정: URL 및 type 확인
+                    type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({name: name, comment: comment}),
                     success: function(response){
@@ -92,17 +92,91 @@ class CompetitionPost extends HTMLElement {
                     }
                 });
             });
-          },
-          error: function (xhr, status, error) {
+// Add event listener for post deletion
+box.querySelector('#delete').addEventListener('click', function(e) {
+    e.preventDefault();
+    const password = box.querySelector('#password').value;
+
+    $.ajax({
+        url: `/api/competition/${competitionId}/posts/${postId}`,
+        type: "DELETE",
+        contentType: "application/json",
+        data: JSON.stringify({password: password}),
+        success: function(response) {
+            alert('Post deleted successfully');
+            window.location.href = response.redirectUrl;
+        },
+        error: function(xhr, status, error) {
             console.error("Error: ", error);
-          },
-        });
-        this.appendChild(box);
-      };
-  
-      document.head.appendChild(linkElement);
-    }
-  }
-  
-  customElements.define("post-component", CompetitionPost);
-  
+            alert('Incorrect password');
+            window.location.href = `/compete_hub/${competitionId}/posts/${postId}`
+        }
+    });
+});
+
+                    // Add event listener for post modification
+                    box.querySelector('#modify').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const password = box.querySelector('#password').value;
+
+                        $.ajax({
+                            url: `/api/competition/${competitionId}/posts/${postId}/verify`,
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify({ password: password }),
+                            success: function(response) {
+                                const postTitleElement = box.querySelector('#post-title p');
+                                const postContentElement = box.querySelector('#post-content');
+                                const modifyButton = box.querySelector('#modify');
+
+                                postTitleElement.innerHTML = `<input type="text" class="edit-title" id="edit-title" value="${post.title}"/>`;
+                                postContentElement.innerHTML = `<textarea class="edit-content" id="edit-content">${post.context}</textarea>`;
+                                modifyButton.textContent = 'save';
+                                modifyButton.id = 'save';
+
+                                // Add event listener for save button
+                                box.querySelector('#save').addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    const newTitle = box.querySelector('#edit-title').value;
+                                    const newContent = box.querySelector('#edit-content').value;
+
+                                    if (newTitle.trim() === '' || newContent.trim() === '') {
+                                        alert('Title and content cannot be empty');
+                                        return;
+                                    }
+
+                                    $.ajax({
+                                        url: `/api/competition/${competitionId}/posts/${postId}`,
+                                        type: "PUT",
+                                        contentType: "application/json",
+                                        data: JSON.stringify({ title: newTitle, context: newContent, password: password }),
+                                        success: function(response) {
+                                            alert('Post updated successfully');
+                                            location.reload(true);
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error("Error: ", error);
+                                            alert('Failed to update post');
+                                        }
+                                    });
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                console.error("Error: ", error);
+                                alert('Incorrect password');
+                            }
+                        });
+                    });
+},
+error: function (xhr, status, error) {
+console.error("Error: ", error);
+},
+});
+this.appendChild(box);
+};
+
+document.head.appendChild(linkElement);
+}
+}
+
+customElements.define("post-component", CompetitionPost);

@@ -15,11 +15,13 @@ input::placeholder, textarea::placeholder{
     border: 1px solid #A5ABBD;
     border-radius: 5px;
     padding: 8px;
+    font-family: "Fredoka", sans-serif;
 }
 .post-recuritment > form > textarea{
     border: 1px solid #A5ABBD;
     border-radius: 5px;
     padding: 8px;
+    font-family: "Fredoka", sans-serif;
 }
 .save{
     width: 130px;

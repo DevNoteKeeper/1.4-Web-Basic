@@ -21,7 +21,7 @@
     font-weight: 600;
     margin-top: 0;
 }
-.post-title > form > input{
+.post-title > form > input, button{
     color: #A5ABBD;
     border: 1px solid #A5ABBD;
     border-radius: 5px;
@@ -29,7 +29,7 @@
     background-color: transparent;
     margin-right: 15px;
 
-    font-size: 14px;
+    font-size: 16px;
     color: #A5ABBD;
 }
 .post-title > form > input::placeholder{
@@ -39,6 +39,7 @@
 .post-title > form > input::value{
     font-size: 18px;
     color: #A5ABBD;
+    font-family: "Fredoka", sans-serif;
 }
 .post-title > form > input:first-child{
     border: none;
@@ -51,6 +52,22 @@
     margin-top: 20px;
     width: 880px;
 }
+.edit-title{
+    font-size: 18px;
+    border: 1px solid #A5ABBD;
+    border-radius: 5px;
+    width: 500px;
+    height: 34px;
+    font-family: "Fredoka", sans-serif;
+}
+.edit-content{
+    font-size: 18px;
+    border: 1px solid #A5ABBD;
+    border-radius: 5px;
+    width: 880px;
+    height: 50px;
+    font-family: "Fredoka", sans-serif;
+} 
 .comment-form{
     display: flex;
     flex-direction: row;

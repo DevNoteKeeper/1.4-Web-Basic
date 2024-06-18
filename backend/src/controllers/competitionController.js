@@ -55,8 +55,9 @@ export function getCompetitionById(req, res) {
     const competitionId = req.params.competitionId;
 
     const query = `
-        SELECT c.*
+        SELECT c.*, cp.*
         FROM Competition c
+        INNER JOIN ContactPerson cp ON c.competition_id = cp.competition_id
         WHERE c.competition_id = ?
     `;
     competitiondb.get(query, [competitionId], (err, row) => {
@@ -96,8 +97,8 @@ export function getTopPosts(req, res) {
 
 
 
-export function registerCompetition(req, res) {
-    const { title, startDate, endDate, homepage, context, tags, company, name, email } = req.body;
+export function addCompetition(req, res) {
+    const { title, startDate, endDate, homepage, context, tags } = req.body;
     const poster = req.file ? req.file.path : null;
     const competition_id = uuidv4();
 
@@ -107,28 +108,32 @@ export function registerCompetition(req, res) {
         INSERT INTO Competition (competition_id, title, startDate, endDate, homepage, poster, context, tags)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
+
+    competitiondb.run(insertCompetition, [competition_id, title, startDate, endDate, homepage, poster, decodedContext, tags], (err) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        res.status(201).json({ message: 'Competition added successfully', competition_id });
+    });
+}
+
+export function addContactPerson(req, res) {
+    const { competitionId, company, name, email } = req.body;
+
     const insertContactPerson = `
         INSERT INTO ContactPerson (competition_id, company, name, email)
         VALUES (?, ?, ?, ?)
     `;
 
-    competitiondb.serialize(() => {
-        competitiondb.run(insertCompetition, [competition_id, title, startDate, endDate, homepage, poster, decodedContext, tags], (err) => {
-            if (err) {
-                console.error(err.message);
-                res.status(500).send('Internal server error');
-                return;
-            }
-
-            competitiondb.run(insertContactPerson, [competition_id, company, name, email], (err) => {
-                if (err) {
-                    console.error(err.message);
-                    res.status(500).send('Internal server error');
-                    return;
-                }
-                res.status(200).send('<script>alert("Registration successful"); window.location.href = "/";</script>');
-            });
-        });
+    competitiondb.run(insertContactPerson, [competitionId, company, name, email], (err) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal server error');
+            return;
+        }
+        res.status(201).json({ message: 'Contact person added successfully' });
     });
 }
 

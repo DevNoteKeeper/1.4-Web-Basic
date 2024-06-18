@@ -20,6 +20,7 @@
     font-size: 24px;
     font-weight: 600;
     margin-top: 0;
+    width: 500px;
 }
 .post-title > form > input, button{
     color: #A5ABBD;

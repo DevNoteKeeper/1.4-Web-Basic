@@ -5,7 +5,8 @@ import {
     getAllCompetitions,
     getCompetitionById,
     getTopPosts,
-    registerCompetition
+    addCompetition,
+    addContactPerson
 } from '../controllers/competitionController.js';
 
 const router = express.Router();
@@ -24,6 +25,7 @@ router.get('/top', getTopCompetitions);
 router.get('/', getAllCompetitions);
 router.get('/:competitionId', getCompetitionById);
 router.get('/top/posts', getTopPosts);
-router.post('/register', upload.single('poster'), registerCompetition);
+router.post('/', upload.single('poster'), addCompetition);
+router.post('/contactperson', addContactPerson);
 
 export default router;

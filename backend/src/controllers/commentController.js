@@ -37,6 +37,6 @@ export function createComment(req, res) {
             res.status(500).send('Internal server error');
             return;
         }
-        res.status(200).send('Comment saved successfully');
+        res.status(201).json({message: 'Comment saved successfully'});
     });
 }

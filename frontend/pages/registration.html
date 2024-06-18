@@ -21,7 +21,6 @@
         color: #414656;
         font-size: 20px;
         font-weight: 400;
-
         width: 1200px;
         margin: 50px auto;
         display: flex;
@@ -75,54 +74,58 @@
         color: #414656;
         font-size: 20px;
     }
+    .require{
+        color:#CC7183;
+    }
 </style>
 <body>
     <header-component></header-component>
     <div class="registration-form">
         <div class="title">Competition Registration</div>
-        <form enctype="multipart/form-data" method="post" action="/api/competition/register">
+        
+        <form id="competition-form" enctype="multipart/form-data">
         <div class="form-box">
             <p style="font-weight: 500; font-size:24px; margin-top: 0; margin-bottom: 20px;">Announcement Details</p>
 
-            <label for="competition-title">Title<span style="color:#CC7183"> *</label>
+            <label for="competition-title">Title<span class="require"> *</span></label>
             <input type="text" id="competition-title" name="title"/>
             <br>
 
-            <label for="tags">Tags<span style="color:#CC7183"> *</label>
+            <label for="tags">Tags<span class="require"> *</span></label>
             <input type="text" id="tags" name="tags" pattern="#[\w\S]+(, #[\w\S]+)*" placeholder="ex) #IT, #Hackathon, #Environment"/>
             <br>
 
-            <label for="duration">Apply duration<span style="color:#CC7183"> *</label>
+            <label for="start-date">Apply duration<span class="require"> *</span></label>
             <input type="date" id="start-date" name="startDate"/> ~ 
             <input type="date" id="end-date" name="endDate"/>
             <br>
 
-            <label for="hompage">Hompage<span style="color:#CC7183"> *</label>
+            <label for="homepage">Homepage<span class="require"> *</span></label>
             <input type="url" id="homepage" name="homepage"/>
             <br>
 
-            <label for="poster">Poster<span style="color:#CC7183"> *</label>
+            <label for="poster">Poster<span class="require"> *</span></label>
             <input type="file" id="poster" name="poster" style="display: inline;"/>
         </div>
 
         <div class="form-box">
             <p style="font-weight: 500; font-size:24px; margin-top: 0; margin-bottom: 20px;">Contact Person Information</p>
 
-            <label for="company">Host Company<span style="color:#CC7183"> *</label>
+            <label for="company">Host Company<span class="require"> *</span></label>
             <input type="text" id="company" name="company"/>
             <br>
 
-            <label for="name">Name<span style="color:#CC7183"> *</label>
+            <label for="name">Name<span class="require"> *</span></label>
             <input type="text" id="name" name="name"/>
             <br>
 
-            <label for="email">E-mail<span style="color:#CC7183"> *</label>
+            <label for="email">E-mail<span class="require"> *</span></label>
             <input type="email" id="email" name="email"/>
         </div>
 
         <textarea id="editor" name="context"></textarea>
         <input type="hidden" id="encodedContext"/>
-        <input type="submit" id="save" class="save" value="Save" onclick="save_form()"/>
+        <input type="submit" id="save" class="save" value="Save" onclick="saveForm(event)"/>
         </form>
     </div>
 
@@ -137,12 +140,48 @@
                 tabsize: 2,
                 height: 455
             });
-        
-            $('form').on('submit', function(event) {
-                var encodedContent = encodeURIComponent($('#editor').summernote('code'));
-                $('#encodedContext').val(encodedContent);
-            });
         });
+
+        function saveForm(event) {
+            event.preventDefault();
+            var competitionFormData = new FormData(document.getElementById('competition-form'));
+            var encodedContent = encodeURIComponent($('#editor').summernote('code'));
+            competitionFormData.set('context', encodedContent);
+            
+            $.ajax({
+                url: '/api/competition',
+                type: 'POST',
+                data: competitionFormData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    var competitionId = response.competition_id;
+                    var contactPersonData = {
+                        competitionId: competitionId,
+                        company: $('#company').val(),
+                        name: $('#name').val(),
+                        email: $('#email').val()
+                    };
+
+                    $.ajax({
+                        url: '/api/competition/contactperson',
+                        type: 'POST',
+                        data: JSON.stringify(contactPersonData),
+                        contentType: 'application/json',
+                        success: function(response) {
+                            alert('Competition and Contact Person saved successfully.');
+                            window.location.href = '/';
+                        },
+                        error: function(error) {
+                            alert('Error saving contact person: ' + error.responseText);
+                        }
+                    });
+                },
+                error: function(error) {
+                    alert('Error saving competition: ' + error.responseText);
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -38,7 +38,8 @@ export function createRecruitmentPost(req, res) {
             res.status(500).send('Internal server error');
             return;
         }
-        res.status(200).send('Recruitment post saved successfully');
+        
+        res.status(201).json({message: 'Recruitment post saved successfully'});
     });
 }
 
@@ -137,7 +138,7 @@ export function verifyPassword(req, res){
             res.status(403).send('Incorrect password');
             return;
         }
-        res.status(200).send('Password verified');
+        res.status(201).json({ message: 'Password verified'});
     });
 
 }
@@ -182,7 +183,7 @@ export function updatePostById(req, res){
                 res.status(500).send('Internal server error');
                 return;
             }
-            res.status(200).send('Post updated successfully');
+            res.status(200).json({message: 'Post updated successfully'});
         });
     });
 }

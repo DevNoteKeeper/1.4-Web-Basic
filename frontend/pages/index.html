@@ -167,7 +167,6 @@
     <script>
         $(document).ready(function () {
             $(".banner").not(".active").hide();
-            console.log("check");
             setInterval(nextSlide, 4000);
 
             // Fetch top 3 posts by comment count
@@ -176,7 +175,6 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    console.log('Data received:', data);
                     if (data.length > 0) {
                         $('#findTeammate').empty();
                         data.forEach(function (post) {
@@ -191,7 +189,7 @@
                             $('#findTeammate').append(cardHtml);
                         });
                     } else {
-                        $('#findTeammate').html('<p style="font-weight: 700;">Currently, there are no competitions looking for teammates.</p>');
+                        $('#findTeammate').html('<p style="font-weight: 700; font-size: 30px;">Currently, there are no competitions looking for teammates.</p>');
                     }
                 },
                 error: function (xhr, status, error) {

@@ -12,7 +12,6 @@ class RecommendCompetition extends HTMLElement {
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
                     data.forEach(competition => {
                         let dday = Math.ceil((new Date(competition.endDate) - Date.now()) / (1000 * 60 * 60 * 24));
                         const imageUrl = `/${competition.poster.replace(/\\/g, "/")}`;

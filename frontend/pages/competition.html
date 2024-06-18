@@ -124,7 +124,9 @@
                 success: function(data) {
                     let cardGroup = $('<div class="card-group"></div>');
                     data.forEach(function(competition, index){
-                        const imageUrl = `/${competition.poster.replace(/\\/g, '/')}`;
+                        console.log("competition 데이터입니다" + competition);
+                        const imageUrl = competition.poster ? `/${competition.poster.replace(/\\/g, '/')}` : 'frontend/images/defaultImage.png';
+
                         
                         let dday = Math.ceil((new Date(competition.endDate) - Date.now()) / (1000 * 60 * 60 * 24));
                         let temp_html = `

@@ -1,4 +1,5 @@
 import sqlite3 from 'sqlite3';
+import { v4 as uuidv4 } from 'uuid';
 
 const competitiondb = new sqlite3.Database('competition.db');
 
@@ -9,7 +10,7 @@ export function getTopCompetitions(req, res) {
         LEFT JOIN RecruitBoard rb ON c.competition_id = rb.competition_id
         INNER JOIN ContactPerson cp ON c.competition_id = cp.competition_id
         GROUP BY c.competition_id, c.title, cp.company
-        ORDER BY post_count DESC
+        ORDER BY post_count DESC, c.endDate DESC
         LIMIT 3;
     `;
     competitiondb.all(query, [], (err, rows) => {
@@ -54,9 +55,8 @@ export function getCompetitionById(req, res) {
     const competitionId = req.params.competitionId;
 
     const query = `
-        SELECT c.*, cp.company
+        SELECT c.*
         FROM Competition c
-        INNER JOIN ContactPerson cp ON c.competition_id = cp.competition_id
         WHERE c.competition_id = ?
     `;
     competitiondb.get(query, [competitionId], (err, row) => {
@@ -93,3 +93,42 @@ export function getTopPosts(req, res) {
         res.status(200).json(rows);
     });
 }
+
+
+
+export function registerCompetition(req, res) {
+    const { title, startDate, endDate, homepage, context, tags, company, name, email } = req.body;
+    const poster = req.file ? req.file.path : null;
+    const competition_id = uuidv4();
+
+    const decodedContext = decodeURIComponent(context);
+
+    const insertCompetition = `
+        INSERT INTO Competition (competition_id, title, startDate, endDate, homepage, poster, context, tags)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const insertContactPerson = `
+        INSERT INTO ContactPerson (competition_id, company, name, email)
+        VALUES (?, ?, ?, ?)
+    `;
+
+    competitiondb.serialize(() => {
+        competitiondb.run(insertCompetition, [competition_id, title, startDate, endDate, homepage, poster, decodedContext, tags], (err) => {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send('Internal server error');
+                return;
+            }
+
+            competitiondb.run(insertContactPerson, [competition_id, company, name, email], (err) => {
+                if (err) {
+                    console.error(err.message);
+                    res.status(500).send('Internal server error');
+                    return;
+                }
+                res.status(200).send('<script>alert("Registration successful"); window.location.href = "/";</script>');
+            });
+        });
+    });
+}
+

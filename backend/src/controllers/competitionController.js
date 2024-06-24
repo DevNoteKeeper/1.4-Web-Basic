@@ -104,6 +104,10 @@ export function addCompetition(req, res) {
 
     const decodedContext = decodeURIComponent(context);
 
+    if (!title || !startDate || !endDate || !homepage || !decodedContext || !tags) {
+        return res.status(400).send('All fields are required');
+    }
+
     const insertCompetition = `
         INSERT INTO Competition (competition_id, title, startDate, endDate, homepage, poster, context, tags)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -121,6 +125,10 @@ export function addCompetition(req, res) {
 
 export function addContactPerson(req, res) {
     const { competitionId, company, name, email } = req.body;
+
+    if (!competitionId || !company || !name || !email) {
+        return res.status(400).send('All fields are required');
+    }
 
     const insertContactPerson = `
         INSERT INTO ContactPerson (competition_id, company, name, email)

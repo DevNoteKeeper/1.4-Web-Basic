@@ -2,7 +2,7 @@ class RecommendCompetition extends HTMLElement {
     connectedCallback() {
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = '/components/RecommendCompetition.css';
+        linkElement.href = '/components/components_css/RecommendCompetition.css';
         linkElement.onload = () => {
             let box = document.createElement('div');
             box.classList.add('recommend');

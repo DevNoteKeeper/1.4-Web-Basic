@@ -1,0 +1,49 @@
+
+    .algorithm{
+        font-family: "Fredoka", sans-serif;
+        color: #414656;
+        margin: 50px 0;
+    }
+    .title{
+        font-size: 32px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .card-wrap{
+        margin: 50px 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .card{
+        width: 380px;
+        height: 350px;
+        border-radius: 15px;
+        border: solid 1px #A5ABBD;
+        padding: 20px;
+        margin-right: 50px;
+    }
+    .card:last-child{
+        margin-right: 0;
+    }
+    .card > img{
+        width: 380px;
+        height: 200px;
+        object-fit: contain;
+        
+    }
+    .card-info > a{
+        font-size: 24px;
+        font-weight: 600;
+        color: #414656;
+        margin: 15px 0;
+    }
+    .card-info > p{
+        font-size: 18px;
+        font-weight: 400;
+        color: #414656;
+        white-space: normal;
+    }

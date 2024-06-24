@@ -7,58 +7,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../pages/page_css/algorithm.css" />
     <title>DevHub</title>
 </head>
-<style>
-    .algorithm{
-        font-family: "Fredoka", sans-serif;
-        color: #414656;
-        margin: 50px 0;
-    }
-    .title{
-        font-size: 32px;
-        font-weight: 700;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
-    .card-wrap{
-        margin: 50px 0;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-    }
-    .card{
-        width: 380px;
-        height: 350px;
-        border-radius: 15px;
-        border: solid 1px #A5ABBD;
-        padding: 20px;
-        margin-right: 50px;
-    }
-    .card:last-child{
-        margin-right: 0;
-    }
-    .card > img{
-        width: 380px;
-        height: 200px;
-        object-fit: contain;
-        
-    }
-    .card-info > a{
-        font-size: 24px;
-        font-weight: 600;
-        color: #414656;
-        margin: 15px 0;
-    }
-    .card-info > p{
-        font-size: 18px;
-        font-weight: 400;
-        color: #414656;
-        white-space: normal;
-    }
-</style>
+
 <body>
     <header-component></header-component>
     <div class="algorithm">
@@ -79,8 +31,8 @@
 
     <footer-component></footer-component>
 
-    <script src="/components/Header.js"></script>
-    <script src="/components/Footer.js"></script>
+    <script src="/components/Header.js" defer></script>
+    <script src="/components/Footer.js" defer></script>
     <script>
         $(document).ready(function() {
             $.ajax({

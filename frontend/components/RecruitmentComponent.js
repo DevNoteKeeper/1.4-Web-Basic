@@ -2,7 +2,7 @@ class RecruitmentComponent extends HTMLElement {
     connectedCallback() {
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = '/components/RecruitmentComponent.css';
+        linkElement.href = '/components/components_css/RecruitmentComponent.css';
 
         linkElement.onload = () => {
             let box = document.createElement('div');

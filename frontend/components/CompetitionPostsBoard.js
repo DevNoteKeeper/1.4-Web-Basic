@@ -2,7 +2,7 @@ class CompetitionPostsBoard extends HTMLElement {
     connectedCallback() {
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = '/components/CompetitionPostsBoard.css';
+        linkElement.href = '/components/components_css/CompetitionPostsBoard.css';
 
         linkElement.onload = async () => {
             let box = document.createElement('div');

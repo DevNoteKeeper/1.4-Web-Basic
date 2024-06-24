@@ -2,7 +2,7 @@ class CompetitionNav extends HTMLElement {
     connectedCallback() {
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = '/components/CompetitionNav.css';
+        linkElement.href = '/components/components_css/CompetitionNav.css';
 
         linkElement.onload = () => {
             let box = document.createElement('div');

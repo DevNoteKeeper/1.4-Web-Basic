@@ -13,71 +13,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <link rel="stylesheet" href="../pages/page_css/registration.css" />
     <title>DevHub</title>
 </head>
-<style>
-    .registration-form{
-        font-family: "Fredoka", sans-serif;
-        color: #414656;
-        font-size: 20px;
-        font-weight: 400;
-        width: 1200px;
-        margin: 50px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .title{
-        font-size: 32px;
-        font-weight: 600;
-        margin-bottom: 50px;
-    }
-    .form-box{
-        border: 1px solid #A5ABBD;
-        border-radius: 5px;
-        padding: 30px;
-        width: 1200px;
-        margin-bottom: 50px;
-    }
-    .form-box > label{
-        display: inline-block;
-        width: 200px;
-        text-align: left;
-        margin-right: 20px;
-        font-weight: 400;
-    }
-    .form-box > input{
-        width: 700px;
-        border-radius: 5px;
-        border: 1px solid #A5ABBD;
-        padding: 10px;
-        margin-bottom: 25px;
-    }
-    .form-box > input[type="date"]{
-        width: 300px;
-    }
-    .form-box > input:last-child{
-        margin-bottom: 0;
-    }
-    .save{
-        width: 130px;
-        height: 60px;
-        font-size: 32px;
-        color: white;
-        background-color: #A5ABBD;
-        border: transparent;
-        padding: 5px;
-        border-radius: 5px;
-    }
-    .note-editor .note-editable {
-        font-family: "Fredoka", sans-serif;
-        color: #414656;
-        font-size: 20px;
-    }
-    .require{
-        color:#CC7183;
-    }
-</style>
+
 <body>
     <header-component></header-component>
     <div class="registration-form">
@@ -130,8 +69,8 @@
     </div>
 
     <footer-component></footer-component>
-    <script type="module" src="/components/header.js"></script>
-    <script type="module" src="/components/footer.js"></script>
+    <script type="module" src="/components/header.js" defer></script>
+    <script type="module" src="/components/footer.js" defer></script>
 
     <script>
         $(document).ready(function() {

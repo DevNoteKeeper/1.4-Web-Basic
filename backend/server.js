@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 import competitionRouter from './src/routers/competitionRouter.js';
 import postRouter from './src/routers/postRouter.js';
 import commentRouter from './src/routers/commentRouter.js';
@@ -12,6 +13,8 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 // Serve static files from the "frontend" directory
 app.use(express.static(path.resolve(__dirname, '../frontend')));

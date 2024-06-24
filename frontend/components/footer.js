@@ -2,7 +2,7 @@ class Footer extends HTMLElement{
     connectedCallback(){
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
-        linkElement.href = '/components/Footer.css';
+        linkElement.href = '/components/components_css/Footer.css';
 
         linkElement.onload = () => {
             let box = document.createElement('div');

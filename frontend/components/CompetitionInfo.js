@@ -2,7 +2,7 @@ class CompetitionInfo extends HTMLElement {
   connectedCallback() {
     const linkElement = document.createElement("link");
     linkElement.rel = "stylesheet";
-    linkElement.href = "/components/CompetitionInfo.css";
+    linkElement.href = "/components/components_css/CompetitionInfo.css";
     linkElement.onload = () => {
       let box = document.createElement("div");
       box.classList.add("info-wrap");

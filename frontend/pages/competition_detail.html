@@ -7,29 +7,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../pages/page_css/competition_detail.css" />
     <title>DevHub</title>
 </head>
-<style>
-    .description{
-        font-family: "Fredoka", sans-serif;
-        color: #414656;
-        font-size: 20px;
-        width: 900px;
-        height: 100%;
-        margin: 50px auto;
-    }
 
-</style>
 <body>
     <header-component></header-component>
     <info-component></info-component>
     <div class="description" id="description">
     </div>
     <footer-component></footer-component>
-    <script type="module" src="/components/Header.js"></script>
-    <script type="module" src="/components/CompetitionInfo.js"></script>
-    <script type="module" src="/components/CompetitionNav.js"></script>
-    <script type="module" src="/components/Footer.js"></script>
+    <script type="module" src="/components/Header.js" defer></script>
+    <script type="module" src="/components/CompetitionInfo.js" defer></script>
+    <script type="module" src="/components/CompetitionNav.js" defer></script>
+    <script type="module" src="/components/Footer.js" defer></script>
     <script>
         $(document).ready(function(){
             let competitionId = window.location.pathname.split('/')[2];
